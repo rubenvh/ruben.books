@@ -57,12 +57,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ruben.Books.DataLayer\Ruben.Books.DataLayer.csproj">
-      <Project>{CE5EFC6C-22ED-447E-A38C-7C150E87E624}</Project>
+      <Project>{ce5efc6c-22ed-447e-a38c-7c150e87e624}</Project>
       <Name>Ruben.Books.DataLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ruben.Books.Domain\Ruben.Books.Domain.csproj">
       <Project>{9A12814B-C57B-406F-A06D-2D912D9E2431}</Project>
       <Name>Ruben.Books.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ruben.Books.Repository\Ruben.Books.Repository.csproj">
+      <Project>{503c91eb-8847-4b00-bee4-8e41b54c373a}</Project>
+      <Name>Ruben.Books.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,55 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ruben.Books.DataLayer;
 using Ruben.Books.Domain;
+using Ruben.Books.Repository;
 
 namespace Ruben.Books.CommandLine
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            Category category;
+            Author author;
 
-            Database.SetInitializer(new BooksContextInitializer());
-
-            using (var context = new BooksContext())
+            using (var repo = new CategoryRepository(new UnitOfWork()))
             {
                 Console.WriteLine("Available categories:");
-                foreach (var a in context.Categories.ToList())
+                foreach (Category a in repo.AllCategories)
                 {
                     Console.WriteLine(a.Name);
                 }
-                var category = context.Categories.OrderBy(_ => Guid.NewGuid()).Take(1).Single();
-
-
+                category = repo.All.OrderBy(_ => Guid.NewGuid()).Take(1).Single();
+            }
+            using (var repo = new AuthorRepository(new UnitOfWork()))
+            {
                 Console.WriteLine();
                 Console.WriteLine("Available authors");
-                foreach (var a in context.Authors.ToList())
+                foreach (Author a in repo.AllAuthors)
                 {
                     Console.WriteLine(a.LastName);
                 }
+                author = repo.All.First();
+            }
 
-                var author = context.Authors.First();
-                var newBook = new Book()
+            using (var uow = new UnitOfWork())
+            using (var repo = new BooksRepository(uow))
+            {
+                var newBook = new Book
                 {
                     Title = "Another book",
                     Pages = 100,
                     Category = category
                 };
                 newBook.Authors.Add(author);
-                context.Books.Add(newBook);
-                context.SaveChanges();
+                newBook.State = State.Added;
+                repo.InsertOrUpdateGraph(newBook);
+                
+                uow.Save();
+            }
 
+            using (var uow = new UnitOfWork())
+            using (var repo = new BooksRepository(uow))
+            {
                 Console.WriteLine();
                 Console.WriteLine("Available books");
-                foreach (var book in context.Books)
+                foreach (Book book in repo.AllIncluding(_ => _.Category, _ => _.Authors))
                 {
                     Console.WriteLine("Book '{0}' in category {1}", book.Title, book.Category.Name);
-                    
                 }
             }
         }

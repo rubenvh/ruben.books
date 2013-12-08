@@ -5,6 +5,10 @@ namespace Ruben.Books.DataLayer
 {
     public class BooksContext : DbContext
     {
+        static BooksContext()
+        {
+            Database.SetInitializer(new BooksContextInitializer());
+        }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categories { get; set; } 

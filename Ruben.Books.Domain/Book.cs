@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Ruben.Books.Domain
 {
-    public class Book
+    public class Book : IObjectWithState
     {
         public Book()
         {
@@ -22,9 +22,25 @@ namespace Ruben.Books.Domain
 
         public ICollection<Author> Authors { get; set; }
         public Category Category { get; set; }
+        public int CategoryId { get; set; }
         public ICollection<Reading> Readings { get; set; }
 
         [NotMapped]
         public bool IsRead { get { return Readings.Any(); } }
+
+        [NotMapped]
+        public State State { get; set; }
+    }
+
+    public interface IObjectWithState
+    {
+        State State { get; set; }
+    }
+    public enum State
+    {        
+        Unchanged,
+        Added,
+        Modified,
+        Deleted
     }
 }
