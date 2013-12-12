@@ -7,8 +7,7 @@ namespace Ruben.Books.Domain
     public class Author : IObjectWithState
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         public ICollection<Book> Books { get; set; }
 

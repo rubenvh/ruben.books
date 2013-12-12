@@ -34,8 +34,8 @@ namespace Ruben.Books.DataLayer
 
             catNames.ForEach(_ => context.Categories.Add(new Category() {Name = _}));
 
-            context.Authors.Add(new Author() {FirstName = "Jos", LastName = "Borges"});
-            context.Authors.Add(new Author() { FirstName = "Ruben", LastName = "VH" });
+            context.Authors.Add(new Author() {Name = "Jos Borges"});
+            context.Authors.Add(new Author() { Name = "Ruben VH" });
             context.SaveChanges();
             
             

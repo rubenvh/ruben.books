@@ -27,7 +27,7 @@ namespace Ruben.Books.CommandLine
                 Console.WriteLine("Available authors");
                 foreach (Author a in repo.AllAuthors)
                 {
-                    Console.WriteLine(a.LastName);
+                    Console.WriteLine(a.Name);
                 }
                 author = repo.All.First();
             }
