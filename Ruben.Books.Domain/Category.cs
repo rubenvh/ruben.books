@@ -6,6 +6,9 @@ namespace Ruben.Books.Domain
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public int? CategoryGroupId { get; set; }
+        public CategoryGroup CategoryGroup { get; set; }
+
         [NotMapped]
         public State State
         {

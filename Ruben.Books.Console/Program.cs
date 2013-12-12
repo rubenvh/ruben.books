@@ -15,9 +15,9 @@ namespace Ruben.Books.CommandLine
             using (var repo = new CategoryRepository(new UnitOfWork()))
             {
                 Console.WriteLine("Available categories:");
-                foreach (Category a in repo.AllCategories)
+                foreach (Category a in repo.AllIncluding(_ => _.CategoryGroup))
                 {
-                    Console.WriteLine(a.Name);
+                    Console.WriteLine("{0} => {1}", a.Name, (a.CategoryGroup!=null)? a.CategoryGroup.Name : "No group");
                 }
                 category = repo.All.OrderBy(_ => Guid.NewGuid()).Take(1).Single();
             }
