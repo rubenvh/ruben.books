@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruben.Books.CommandLine", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruben.Books.Repository", "Ruben.Books.Repository\Ruben.Books.Repository.csproj", "{503C91EB-8847-4B00-BEE4-8E41B54C373A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruben.Books.Web", "Ruben.Books.Web\Ruben.Books.Web.csproj", "{8F93AA54-89F4-4861-B501-594A8E3297D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{503C91EB-8847-4B00-BEE4-8E41B54C373A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{503C91EB-8847-4B00-BEE4-8E41B54C373A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{503C91EB-8847-4B00-BEE4-8E41B54C373A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F93AA54-89F4-4861-B501-594A8E3297D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F93AA54-89F4-4861-B501-594A8E3297D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F93AA54-89F4-4861-B501-594A8E3297D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F93AA54-89F4-4861-B501-594A8E3297D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
