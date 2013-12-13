@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Ruben.Books.DataLayer;
@@ -12,7 +13,7 @@ namespace Ruben.Books.Repository
         //Book CreateBook(Book book);
         //ICollection<Book> GetBooks(BooksFilter filter);
         //Book Find(int id);
-        //void MarkRead(int bookId, DateTime when);
+        void MarkAsRead(int bookId, DateTime when, int? pagesRead);
 
     }
 
@@ -24,7 +25,25 @@ namespace Ruben.Books.Repository
         {
             _context = uow.Context;
         }
-              
+
+        public void MarkAsRead(int bookId, DateTime when, int? pagesRead = null)
+        {
+            var book = Find(bookId);
+
+            if (book != null)
+            {
+                book.State = State.Modified;
+                book.Readings.Add(new Reading()
+                {
+                    BookId = bookId,
+                    Date = when,
+                    PagesRead =pagesRead.HasValue? pagesRead.Value : book.Pages,
+                    State = State.Added
+                });
+
+                InsertOrUpdateGraph(book);
+            }
+        }
 
         public List<Book> AllBooks
         {

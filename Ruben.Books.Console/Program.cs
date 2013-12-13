@@ -30,6 +30,16 @@ namespace Ruben.Books.CommandLine
                     Console.WriteLine(a.Name);
                 }
                 author = repo.All.First();
+
+                 Console.WriteLine();
+                Console.WriteLine("All authors matching 'bor':");
+                foreach (Author a in repo.FindAuthorByName("bor"))
+                {
+                    Console.WriteLine(a.Name);
+                }
+                
+
+                
             }
 
             using (var uow = new UnitOfWork())
@@ -51,13 +61,24 @@ namespace Ruben.Books.CommandLine
             using (var uow = new UnitOfWork())
             using (var repo = new BooksRepository(uow))
             {
+                Book randomBook = repo.All.OrderBy(_ => Guid.NewGuid()).Take(1).Single();
+                repo.MarkAsRead(randomBook.Id, DateTime.Now.Date);
+                uow.Save();
+            }
+
+            using (var uow = new UnitOfWork())
+            using (var repo = new BooksRepository(uow))
+            {
                 Console.WriteLine();
                 Console.WriteLine("Available books");
-                foreach (Book book in repo.AllIncluding(_ => _.Category, _ => _.Authors))
+                foreach (Book book in repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings))
                 {
-                    Console.WriteLine("Book '{0}' in category {1}", book.Title, book.Category.Name);
+                    Console.WriteLine("Book '{0}' in category {1}; read {2} times.", book.Title, book.Category.Name, book.Readings.Count());
                 }
+                
             }
+
+           
         }
     }
 }

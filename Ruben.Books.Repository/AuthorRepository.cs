@@ -7,7 +7,10 @@ using Ruben.Books.Domain;
 namespace Ruben.Books.Repository
 {
 
-    interface IAuthorRepository : IEntityRepository<Author> { }
+    interface IAuthorRepository : IEntityRepository<Author> 
+    {
+        ICollection<Author> FindAuthorByName(string term);
+    }
 
     public class AuthorRepository : BaseEntityRepository<Author>, IAuthorRepository
     {
@@ -17,6 +20,11 @@ namespace Ruben.Books.Repository
             : base(uow.Context)
         {
             _context = uow.Context;
+        }
+
+        public ICollection<Author> FindAuthorByName(string term)
+        {
+            return AllAuthors.Where(_ => _.Name.ToLower().Contains(term.ToLower())).ToList();
         }
 
         public List<Author> AllAuthors
@@ -33,5 +41,7 @@ namespace Ruben.Books.Repository
         {
             return entity.Id;
         }
+
+
     }
 }
