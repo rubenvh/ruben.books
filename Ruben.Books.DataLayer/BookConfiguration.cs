@@ -7,7 +7,8 @@ namespace Ruben.Books.DataLayer
     {
         public BookConfiguration()
         {
-            
+            Property(_ => _.Title).IsRequired();
+
         }
     }
 }

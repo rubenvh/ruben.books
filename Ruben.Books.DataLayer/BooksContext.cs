@@ -17,9 +17,10 @@ namespace Ruben.Books.DataLayer
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Configurations.Add(new BookConfiguration());
-            //modelBuilder.Configurations.Add(new CategoryConfiguration());
-            //modelBuilder.Configurations.Add(new AuthorConfiguration());
+            modelBuilder.Configurations.Add(new BookConfiguration());
+            modelBuilder.Configurations.Add(new CategoryConfiguration());
+            modelBuilder.Configurations.Add(new CategoryGroupConfiguration());
+            modelBuilder.Configurations.Add(new AuthorConfiguration());
             //modelBuilder.Configurations.Add(new ReadingConfiguration());
 
             base.OnModelCreating(modelBuilder);

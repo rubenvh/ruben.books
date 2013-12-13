@@ -3,9 +3,9 @@ using Ruben.Books.Domain;
 
 namespace Ruben.Books.DataLayer
 {
-    public class CategoryConfiguration : EntityTypeConfiguration<Category>
+    public class CategoryGroupConfiguration : EntityTypeConfiguration<CategoryGroup>
     {
-        public CategoryConfiguration()
+        public CategoryGroupConfiguration()
         {
             Property(_ => _.Name).IsRequired().HasMaxLength(25);
         }

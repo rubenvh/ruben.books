@@ -51,6 +51,7 @@
     <Compile Include="BooksContext.cs" />
     <Compile Include="BooksContextInitializer.cs" />
     <Compile Include="CategoryConfiguration.cs" />
+    <Compile Include="CategoryGroupConfiguration.cs" />
     <Compile Include="ContextHelpers.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

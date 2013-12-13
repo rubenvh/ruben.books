@@ -15,8 +15,8 @@ namespace Ruben.Books.Domain
 
         public int Id { get; set; }
         public string Title { get; set; }
-        public int FirstPublished { get; set; }
-        public int Published { get; set; }
+        public DateTime? FirstPublished { get; set; }
+        public DateTime? Published { get; set; }
         public string Isbn { get; set; }
         public int Pages { get; set; }
 

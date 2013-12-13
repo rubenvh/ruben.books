@@ -36,10 +36,7 @@ namespace Ruben.Books.CommandLine
                 foreach (Author a in repo.FindAuthorByName("bor"))
                 {
                     Console.WriteLine(a.Name);
-                }
-                
-
-                
+                }   
             }
 
             using (var uow = new UnitOfWork())
@@ -75,10 +72,7 @@ namespace Ruben.Books.CommandLine
                 {
                     Console.WriteLine("Book '{0}' in category {1}; read {2} times.", book.Title, book.Category.Name, book.Readings.Count());
                 }
-                
             }
-
-           
         }
     }
 }

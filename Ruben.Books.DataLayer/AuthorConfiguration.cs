@@ -7,7 +7,7 @@ namespace Ruben.Books.DataLayer
     {
         public AuthorConfiguration()
         {
-            
+            Property(_ => _.Name).IsRequired().HasMaxLength(100);
         }
     }
 }
