@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Castle.Facilities.TypedFactory;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Ruben.Books.DataLayer;
+using Ruben.Books.Repository;
+using Ruben.Books.Web.Controllers;
 
 namespace Ruben.Books.Web
 {
@@ -23,6 +27,22 @@ namespace Ruben.Books.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+
+
+            var container = new WindsorContainer();
+            container.Register(
+                Classes.FromAssemblyContaining<HomeController>()
+                .BasedOn<Controller>().LifestyleTransient());
+            
+            container.Register(
+                Component.For<BooksContext>().LifestylePerWebRequest(),
+                Component.For<IUnitOfWork<BooksContext>>().ImplementedBy<UnitOfWork>().LifestylePerWebRequest(),
+                Component.For<IAuthorRepository>().ImplementedBy<AuthorRepository>().LifestylePerWebRequest(),
+                Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>().LifestylePerWebRequest(),
+                Component.For<IBooksRepository>().ImplementedBy<BooksRepository>().LifestylePerWebRequest());
+            
+            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container.Kernel));
         }
     }
 }

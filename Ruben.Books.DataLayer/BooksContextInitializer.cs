@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using Ruben.Books.Domain;
 
 namespace Ruben.Books.DataLayer
@@ -42,11 +44,22 @@ namespace Ruben.Books.DataLayer
 
             catNames.ForEach(_ => context.Categories.Add(_));
 
-            context.Authors.Add(new Author() {Name = "Jos Borges"});
+            var author = context.Authors.Add(new Author() {Name = "Jos Borges"});
             context.Authors.Add(new Author() { Name = "Ruben VH" });
             context.SaveChanges();
-            
-            
+
+            context.Books.Add(new Book()
+            {
+                Title = "Een boek",
+                Isbn = "132156464",
+                Pages = 200,
+                FirstPublished = DateTime.Now.AddYears(-5),
+                Authors = new List<Author>() {author},
+                Category = catNames.FirstOrDefault()
+            });
+            context.SaveChanges();
+
+
         }
     }
 }

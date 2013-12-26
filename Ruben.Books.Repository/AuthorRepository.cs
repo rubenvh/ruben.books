@@ -7,7 +7,7 @@ using Ruben.Books.Domain;
 namespace Ruben.Books.Repository
 {
 
-    interface IAuthorRepository : IEntityRepository<Author> 
+    public interface IAuthorRepository : IEntityRepository<Author> 
     {
         ICollection<Author> FindAuthorByName(string term);
     }

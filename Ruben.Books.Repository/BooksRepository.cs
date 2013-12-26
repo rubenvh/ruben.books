@@ -8,7 +8,7 @@ using Ruben.Books.Domain;
 namespace Ruben.Books.Repository
 {
 
-    interface IBooksRepository : IEntityRepository<Book>
+    public interface IBooksRepository : IEntityRepository<Book>
     {
         //Book CreateBook(Book book);
         //ICollection<Book> GetBooks(BooksFilter filter);
@@ -21,9 +21,9 @@ namespace Ruben.Books.Repository
     {
         private readonly BooksContext _context;
    
-        public BooksRepository(UnitOfWork uow): base(uow.Context)
+        public BooksRepository(IUnitOfWork<BooksContext> unitOfWork): base(unitOfWork.Context)
         {
-            _context = uow.Context;
+            _context = unitOfWork.Context;
         }
 
         public void MarkAsRead(int bookId, DateTime when, int? pagesRead = null)

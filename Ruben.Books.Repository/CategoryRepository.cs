@@ -6,7 +6,7 @@ using Ruben.Books.Domain;
 
 namespace Ruben.Books.Repository
 {
-    interface ICategoryRepository : IEntityRepository<Category> { }
+    public interface ICategoryRepository : IEntityRepository<Category> { }
 
     public class CategoryRepository : BaseEntityRepository<Category>, ICategoryRepository
     {
