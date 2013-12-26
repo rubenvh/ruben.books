@@ -1,0 +1,64 @@
+﻿@model Ruben.Books.Domain.Book
+
+@{
+    ViewBag.Title = "book details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Book</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FirstPublished)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstPublished)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Published)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Published)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Isbn)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Isbn)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Pages)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Pages)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsRead)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsRead)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
