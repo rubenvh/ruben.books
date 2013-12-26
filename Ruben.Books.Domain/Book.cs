@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -14,10 +15,14 @@ namespace Ruben.Books.Domain
         }
 
         public int Id { get; set; }
+
+        [Required]
         public string Title { get; set; }
         public DateTime? FirstPublished { get; set; }
         public DateTime? Published { get; set; }
         public string Isbn { get; set; }
+
+        [Required]
         public int Pages { get; set; }
 
         public ICollection<Author> Authors { get; set; }

@@ -57,6 +57,16 @@ namespace Ruben.Books.DataLayer
                 Authors = new List<Author>() {author},
                 Category = catNames.FirstOrDefault()
             });
+
+            context.Books.Add(new Book()
+            {
+                Title = "Een boek 2",
+                Isbn = "654654654",
+                Pages = 501,
+                Published = DateTime.Now.AddYears(-2),
+                Authors = new List<Author>() { author },
+                Category = catNames.FirstOrDefault()
+            });
             context.SaveChanges();
 
 

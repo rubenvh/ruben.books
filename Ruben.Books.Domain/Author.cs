@@ -6,6 +6,15 @@ namespace Ruben.Books.Domain
 {
     public class Author : IObjectWithState
     {
+        public Author()
+        {
+            
+        }
+
+        public Author(string id)
+        {
+            Id = int.Parse(id);
+        }
         public int Id { get; set; }
         public string Name { get; set; }
 

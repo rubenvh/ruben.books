@@ -16,7 +16,7 @@ namespace Ruben.Books.Repository
     {
         private readonly BooksContext _context;
 
-        public AuthorRepository(UnitOfWork uow)
+        public AuthorRepository(IUnitOfWork<BooksContext> uow)
             : base(uow.Context)
         {
             _context = uow.Context;

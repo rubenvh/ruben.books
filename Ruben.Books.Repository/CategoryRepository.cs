@@ -12,7 +12,7 @@ namespace Ruben.Books.Repository
     {
         private readonly BooksContext _context;
 
-        public CategoryRepository(UnitOfWork uow)
+        public CategoryRepository(IUnitOfWork<BooksContext> uow)
             : base(uow.Context)
         {
             _context = uow.Context;

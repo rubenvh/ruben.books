@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Antlr.Runtime;
 using Ruben.Books.DataLayer;
+using Ruben.Books.Domain;
 using Ruben.Books.Repository;
+using Ruben.Books.Web.Models;
+using WebGrease.Css.Extensions;
 
 namespace Ruben.Books.Web.Controllers
 {
@@ -12,9 +16,11 @@ namespace Ruben.Books.Web.Controllers
     {
         private IBooksRepository _repo;
         private IUnitOfWork<BooksContext> _unitOfWork;
+        private ICategoryRepository _categoryRepository;
 
-        public BooksController(IBooksRepository repo, IUnitOfWork<BooksContext> unitOfWork)
+        public BooksController(IBooksRepository repo, IUnitOfWork<BooksContext> unitOfWork, ICategoryRepository categoryRepository)
         {
+            _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
             _repo = repo;
         }
@@ -24,8 +30,19 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Index()
         {
-            var books = _repo.AllIncluding(_ => _.Category, _ => _.Readings);
-            return View(books);
+            var books = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings).ToList();
+            var viewModel = books.Select(_ =>
+                new BookVM()
+                {
+                    Title = _.Title,
+                    Published = _.FirstPublished ?? _.Published,
+                    TimesRead = _.Readings == null ? 0 : _.Readings.Count(),
+                    Category = _.Category.Name,
+                    FirstAuthor = string.Format(_.Authors.Count()== 1? "{0}" : "{0}, et al.", _.Authors.First().Name),
+                    Pages = _.Pages,
+                    Id = _.Id
+                }).ToList();
+            return View(viewModel);
         }
 
         //
@@ -33,7 +50,8 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            var book = _repo.Find(id);
+            return View(book);
         }
 
         //
@@ -41,6 +59,7 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Create()
         {
+            ViewData["Categories"] = new SelectList(_categoryRepository.All.ToList(), "Id", "Name", 1);
             return View();
         }
 
@@ -48,18 +67,25 @@ namespace Ruben.Books.Web.Controllers
         // POST: /Books/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Book book)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (this.ModelState.IsValid)
+                {
+                    book.State = State.Added;
+                    _repo.InsertOrUpdateGraph(book);
+                    _unitOfWork.Save();
+                    return RedirectToAction("Details", new { id=book.Id});
+                }
             }
             catch
             {
-                return View();
+                // TODO: write error on view
             }
+            // TODO: make sure validation errors are passed to client
+            ViewData["Categories"] = new SelectList(_categoryRepository.All.ToList(), "Id", "Name", 1);
+            return View(book);
         }
 
         //

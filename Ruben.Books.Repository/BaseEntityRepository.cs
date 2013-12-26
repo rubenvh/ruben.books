@@ -12,6 +12,7 @@ namespace Ruben.Books.Repository
         IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties);
         T Find(int id);
         void InsertOrUpdate(T entity);
+        void InsertOrUpdateGraph(T entity);
         void Delete(int id);
     }
 

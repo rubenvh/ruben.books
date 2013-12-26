@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Ruben.Books.Domain.Book>
+﻿@model IEnumerable<Ruben.Books.Web.Models.BookVM>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "all books";
 }
 
-<h2>Index</h2>
+<h2>Books</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,22 +12,19 @@
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.FirstAuthor)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstPublished)
+            @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Published)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Isbn)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Pages)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CategoryId)
+            @Html.DisplayNameFor(model => model.Category)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsRead)
@@ -38,22 +35,19 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(modelItem => item.FirstAuthor)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FirstPublished)
+            @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Published)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Isbn)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Pages)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CategoryId)
+            @Html.DisplayFor(modelItem => item.Category)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsRead)

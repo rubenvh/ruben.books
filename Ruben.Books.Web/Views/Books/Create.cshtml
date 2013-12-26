@@ -1,0 +1,113 @@
+﻿@model Ruben.Books.Domain.Book
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script>
+    $(document).ready(function () {
+        
+        $("#authorSearch").autocomplete({
+            source: function (request, response) {
+                $.get("/Author/Find", { term: request.term }, function (data) {
+                    response($.map(data, function (c) {
+                        return {
+                            label: c.Name,
+                            id: c.Id
+                        };
+                    }));
+                });
+            },
+            select: function (event, ui) {
+                $("#authors").append($('<option>', { 
+                    value: ui.item.id,
+                    text : ui.item.label 
+                }));
+                $('#authorSearch').val('');
+                $('#authors option').prop('selected', 'selected');
+            }
+        });
+    })
+</script>
+
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Book</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Authors)
+        </div>
+        <div class="editor-field">
+            
+            <input id="authorSearch" type="text" name=""/>
+            <select id="authors" name="selected_authors" multiple></select>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstPublished)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstPublished)
+            @Html.ValidationMessageFor(model => model.FirstPublished)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Published)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Published)
+            @Html.ValidationMessageFor(model => model.Published)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Isbn)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Isbn)
+            @Html.ValidationMessageFor(model => model.Isbn)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Pages)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Pages)
+            @Html.ValidationMessageFor(model => model.Pages)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewData["Categories"])
+            @Html.ValidationMessageFor(model => model.CategoryId)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
