@@ -6,6 +6,7 @@ using Ruben.Books.Domain;
 
 namespace Ruben.Books.DataLayer
 {
+    [Obsolete("Not used anymore since migrations")]
     public class BooksContextInitializer : DropCreateDatabaseIfModelChanges<BooksContext>
     {
         protected override void Seed(BooksContext context)

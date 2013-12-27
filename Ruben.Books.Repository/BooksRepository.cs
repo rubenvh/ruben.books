@@ -10,9 +10,8 @@ namespace Ruben.Books.Repository
 
     public interface IBooksRepository : IEntityRepository<Book>
     {
-        //Book CreateBook(Book book);
+        
         //ICollection<Book> GetBooks(BooksFilter filter);
-        //Book Find(int id);
         void MarkAsRead(int bookId, DateTime when, int? pagesRead);
 
     }
@@ -45,15 +44,6 @@ namespace Ruben.Books.Repository
             }
         }
 
-        public List<Book> AllBooks
-        {
-            get { return _context.Books.ToList(); }
-        }
-        //public List<Customer> AllCustomersWhoHaveOrdered
-        //{
-        //    get { return _context.Customers.Where(c => c.Orders.Any()).ToList(); }
-        //}
-        
 
         protected override DbSet<Book> GetEntities()
         {

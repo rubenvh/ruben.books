@@ -4,12 +4,7 @@ using Ruben.Books.Domain;
 namespace Ruben.Books.DataLayer
 {
     public class BooksContext : DbContext
-    {
-        static BooksContext()
-        {
-            Database.SetInitializer(new BooksContextInitializer());
-        }
-
+    {       
         public BooksContext()
             : base("BooksContext")
         {
@@ -27,7 +22,7 @@ namespace Ruben.Books.DataLayer
             modelBuilder.Configurations.Add(new CategoryConfiguration());
             modelBuilder.Configurations.Add(new CategoryGroupConfiguration());
             modelBuilder.Configurations.Add(new AuthorConfiguration());
-            //modelBuilder.Configurations.Add(new ReadingConfiguration());
+            modelBuilder.Configurations.Add(new ReadingConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

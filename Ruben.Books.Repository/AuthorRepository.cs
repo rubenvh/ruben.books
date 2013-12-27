@@ -24,6 +24,8 @@ namespace Ruben.Books.Repository
 
         public ICollection<Author> FindAuthorByName(string term)
         {
+            // TODO: woops - pulling in all authors and filtering in application (not on database)
+            // TODO: change this with a profiling view before and after to see the resulting query differences
             return AllAuthors.Where(_ => _.Name.ToLower().Contains(term.ToLower())).ToList();
         }
 
@@ -41,7 +43,5 @@ namespace Ruben.Books.Repository
         {
             return entity.Id;
         }
-
-
     }
 }

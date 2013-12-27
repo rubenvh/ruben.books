@@ -16,12 +16,7 @@ namespace Ruben.Books.Repository
             : base(uow.Context)
         {
             _context = uow.Context;
-        }
-
-        public List<Category> AllCategories
-        {
-            get { return GetEntities().ToList(); }
-        }
+        }      
 
         protected override DbSet<Category> GetEntities()
         {
