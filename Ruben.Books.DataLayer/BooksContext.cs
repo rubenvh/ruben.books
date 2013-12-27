@@ -14,6 +14,7 @@ namespace Ruben.Books.DataLayer
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryGroup> CategoryGroups { get; set; }
+        public DbSet<Reading> Readings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -1,18 +1,12 @@
 ﻿@model IEnumerable<Ruben.Books.Web.Models.BookVM>
 
-@{
-    ViewBag.Title = "all books";
-}
 
-<h2>Books</h2>
+<h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstAuthor)
+            @Html.DisplayNameFor(model => model.Author)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
@@ -27,18 +21,19 @@
             @Html.DisplayNameFor(model => model.Category)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsRead)
+            @Html.DisplayNameFor(model => model.LastRead)
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.FirstAuthor)
+            @Html.DisplayFor(modelItem => item.Author)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            <a href="@Url.Action("Details", "Books", new { id=item.Id})">
+                @Html.DisplayFor(modelItem => item.Title)
+            </a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Published)
@@ -50,13 +45,9 @@
             @Html.DisplayFor(modelItem => item.Category)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsRead)
+            @Html.DisplayFor(modelItem => item.LastRead)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
+       
     </tr>
 }
 

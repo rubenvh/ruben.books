@@ -51,15 +51,17 @@ namespace Ruben.Books.CommandLine
                 newBook.Authors.Add(author);
                 newBook.State = State.Added;
                 repo.InsertOrUpdateGraph(newBook);
-                
+
                 uow.Save();
             }
 
             using (var uow = new UnitOfWork())
             using (var repo = new BooksRepository(uow))
             {
-                Book randomBook = repo.All.OrderBy(_ => Guid.NewGuid()).Take(1).Single();
-                repo.MarkAsRead(randomBook.Id, DateTime.Now.Date);
+                Random rnd = new Random(System.DateTime.Now.Millisecond);
+                Book randomBook = repo.All.OrderBy(_ => Guid.NewGuid()).Take(1).Single();                
+                int month = rnd.Next(1, 13); // creates a number between 1 and 12
+                repo.MarkAsRead(randomBook.Id, DateTime.Now.Date.AddMonths(-1*month));
                 uow.Save();
             }
 

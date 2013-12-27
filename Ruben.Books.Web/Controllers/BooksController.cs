@@ -31,18 +31,9 @@ namespace Ruben.Books.Web.Controllers
         public ActionResult Index()
         {
             var books = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings).ToList();
-            var viewModel = books.Select(_ =>
-                new BookVM()
-                {
-                    Title = _.Title,
-                    Published = _.FirstPublished ?? _.Published,
-                    TimesRead = _.Readings == null ? 0 : _.Readings.Count(),
-                    Category = _.Category.Name,
-                    FirstAuthor = string.Format(_.Authors.Count()== 1? "{0}" : "{0}, et al.", _.Authors.First().Name),
-                    Pages = _.Pages,
-                    Id = _.Id
-                }).ToList();
-            return View(viewModel);
+            var viewModel = books.Select(_ => new BookVM(_)).ToList();
+            ViewBag.Title = "All books";
+            return View("BookVMIndex", viewModel);
         }
 
         //
@@ -50,7 +41,9 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Details(int id)
         {
-            var book = _repo.Find(id);
+            var book = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings)
+                .Single(_ => _.Id == id);
+            
             return View(book);
         }
 
@@ -119,7 +112,10 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            var book = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings)
+                .Single(_ => _.Id == id);
+            
+            return View(book);
         }
 
         //
@@ -130,7 +126,8 @@ namespace Ruben.Books.Web.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                _repo.Delete(id);
+                _unitOfWork.Save();
 
                 return RedirectToAction("Index");
             }

@@ -10,7 +10,7 @@ namespace Ruben.Books.Repository
     {
         IQueryable<T> All { get; }
         IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties);
-        T Find(int id);
+        T Find(int id);       
         void InsertOrUpdate(T entity);
         void InsertOrUpdateGraph(T entity);
         void Delete(int id);
@@ -50,7 +50,7 @@ namespace Ruben.Books.Repository
         public T Find(int id)
         {
             return GetEntities().Find(id);
-        }
+        }       
 
         public void InsertOrUpdateGraph(T graph)
         {

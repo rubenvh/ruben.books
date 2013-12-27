@@ -41,6 +41,7 @@ namespace Ruben.Books.Web
                 Component.For<IUnitOfWork<BooksContext>>().ImplementedBy<UnitOfWork>().LifestylePerWebRequest(),
                 Component.For<IAuthorRepository>().ImplementedBy<AuthorRepository>().LifestylePerWebRequest(),
                 Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>().LifestylePerWebRequest(),
+                Component.For<IReadingsRepository>().ImplementedBy<ReadingsRepository>().LifestylePerWebRequest(),
                 Component.For<IBooksRepository>().ImplementedBy<BooksRepository>().LifestylePerWebRequest());
 
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container.Kernel));

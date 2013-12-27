@@ -10,55 +10,75 @@
     <legend>Book</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
+        @Html.DisplayNameFor(model => model.Authors)
+    </div>
+    <div class="display-field">
+        @foreach (var author in Model.Authors)
+        {
+            <span>@author.Name</span>
+        }
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Title)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Title)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.FirstPublished)
+        @Html.DisplayNameFor(model => model.FirstPublished)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.FirstPublished)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Published)
+        @Html.DisplayNameFor(model => model.Published)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Published)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Isbn)
+        @Html.DisplayNameFor(model => model.Isbn)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Isbn)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Pages)
+        @Html.DisplayNameFor(model => model.Pages)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Pages)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Category)
+        @Html.DisplayNameFor(model => model.Category)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Category.Name)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.IsRead)
+        @Html.DisplayNameFor(model => model.IsRead)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.IsRead)
     </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Readings)
+    </div>
+    <div class="display-field">
+        @foreach (var reading in Model.Readings)
+        {
+            <span>@reading.Date @Html.ActionLink("Delete", "Delete", "Reading", new {id=reading.Id}, null)</span>
+        }
+    </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) 
 </p>
