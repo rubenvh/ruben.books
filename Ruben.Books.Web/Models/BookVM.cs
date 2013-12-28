@@ -41,6 +41,8 @@ namespace Ruben.Books.Web.Models
         public string Category { get; set; }
 
         public int TimesRead { get; set; }
+
+         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? LastRead { get; set; }
                
         public bool IsRead { get { return TimesRead > 0; } }
