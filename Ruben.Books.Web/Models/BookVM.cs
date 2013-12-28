@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Ruben.Books.Web.Models
@@ -29,7 +30,8 @@ namespace Ruben.Books.Web.Models
 
         public int Id { get; set; }
         public string Title { get; set; }
-       
+
+        [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Published { get; set; }
         public int Pages { get; set; }
 

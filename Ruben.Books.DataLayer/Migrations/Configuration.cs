@@ -65,37 +65,7 @@ namespace Ruben.Books.DataLayer.Migrations
                new Category() { Name = "_gepland" }
            );
             context.SaveChanges();
-            var categoryId = context.Categories.First().Id;
-
-            context.Authors.AddOrUpdate(_ => _.Name,
-                new Author() { Name = "Test Author 1" },
-                new Author() { Name = "Test Author 2" });
-            context.SaveChanges();
-
-            var authors = context.Authors.Where(_ => _.Name.Contains("Test Author")).ToList();
-
-            context.Books.AddOrUpdate(_ => _.Title,
-                new Book()
-                {
-                    Title = "Test boek 1",
-                    Isbn = "123456789",
-                    Pages = 201,
-                    FirstPublished = DateTime.Now.AddYears(-5),
-                    Authors = new List<Author>() { authors.First() },
-                    CategoryId = categoryId
-                },
-                new Book()
-                {
-                    Title = "Test boek 2",
-                    Isbn = "987654321",
-                    Pages = 501,
-                    Published = DateTime.Now.AddYears(-2),
-                    Authors = authors,
-                    CategoryId = categoryId
-                });
-            context.SaveChanges();
-
-
+            
             base.Seed(context);
 
         }
