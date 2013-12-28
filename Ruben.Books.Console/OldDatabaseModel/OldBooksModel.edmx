@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="rubenvh_boekenModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="boeken">
+          <Key>
+            <PropertyRef Name="boekID" />
+          </Key>
+          <Property Name="boekID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="auteurs" Type="text" />
+          <Property Name="titel" Type="text" Nullable="false" />
+          <Property Name="isbn" Type="tinytext" />
+          <Property Name="jaar" Type="int" />
+          <Property Name="blz" Type="int" />
+          <Property Name="lt_id" Type="int" />
+          <Property Name="lt_source" Type="mediumtext" />
+          <Property Name="owned" Type="bit" Nullable="false" />
+          <Property Name="tags" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.rubenvh_boeken.boekgelezen' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="boekgelezen">
+          <Key>
+            <PropertyRef Name="datum" />
+            <PropertyRef Name="boekID" />
+          </Key>
+          <Property Name="boekID" Type="int" Nullable="false" />
+          <Property Name="datum" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.rubenvh_boeken.boekgenre' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="boekgenre">
+          <Key>
+            <PropertyRef Name="boekID" />
+            <PropertyRef Name="genreID" />
+          </Key>
+          <Property Name="boekID" Type="int" Nullable="false" />
+          <Property Name="genreID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="genres">
+          <Key>
+            <PropertyRef Name="genreID" />
+          </Key>
+          <Property Name="genreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naam" Type="text" Nullable="false" />
+          <Property Name="omschrijving" Type="text" Nullable="false" />
+          <Property Name="group" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="rubenvh_boekenModelStoreContainer">
+          <EntitySet Name="boeken" EntityType="Self.boeken" Schema="rubenvh_boeken" store:Type="Tables" />
+          <EntitySet Name="genres" EntityType="Self.genres" Schema="rubenvh_boeken" store:Type="Tables" />
+          <EntitySet Name="boekgelezen" EntityType="Self.boekgelezen" store:Type="Tables" store:Schema="rubenvh_boeken">
+            <DefiningQuery>SELECT
+`boekgelezen`.`boekID`, 
+`boekgelezen`.`datum`
+FROM `boekgelezen` AS `boekgelezen`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="boekgenre" EntityType="Self.boekgenre" store:Type="Tables" store:Schema="rubenvh_boeken">
+            <DefiningQuery>SELECT
+`boekgenre`.`boekID`, 
+`boekgenre`.`genreID`
+FROM `boekgenre` AS `boekgenre`</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="rubenvh_boekenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="boeken">
+          <Key>
+            <PropertyRef Name="boekID" />
+          </Key>
+          <Property Name="boekID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="auteurs" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="titel" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isbn" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="jaar" Type="Int32" />
+          <Property Name="blz" Type="Int32" />
+          <Property Name="owned" Type="Boolean" Nullable="false" />
+          <Property Name="tags" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Readings" Relationship="rubenvh_boekenModel.boekenboekgelezen" FromRole="boeken" ToRole="boekgelezen" />
+          <NavigationProperty Name="GenreLinks" Relationship="rubenvh_boekenModel.boekenboekgenre" FromRole="boeken" ToRole="boekgenre" />
+        </EntityType>
+        <EntityType Name="genres">
+          <Key>
+            <PropertyRef Name="genreID" />
+          </Key>
+          <Property Name="genreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naam" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="omschrijving" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="group" Type="SByte" Nullable="false" />
+          <NavigationProperty Name="BookGenreLinks" Relationship="rubenvh_boekenModel.boekgenregenres" FromRole="genres" ToRole="boekgenre" />
+        </EntityType>
+        <EntityType Name="boekgelezen">
+          <Key>
+            <PropertyRef Name="datum" />
+            <PropertyRef Name="BookId" />
+          </Key>
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="datum" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="rubenvh_boekenModel.boekenboekgelezen" FromRole="boekgelezen" ToRole="boeken" />
+        </EntityType>
+        <EntityType Name="boekgenre">
+          <Key>
+            <PropertyRef Name="boekID" />
+            <PropertyRef Name="genreID" />
+          </Key>
+          <Property Name="boekID" Type="Int32" Nullable="false" />
+          <Property Name="genreID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="rubenvh_boekenModel.boekenboekgenre" FromRole="boekgenre" ToRole="boeken" />
+          <NavigationProperty Name="Genre" Relationship="rubenvh_boekenModel.boekgenregenres" FromRole="boekgenre" ToRole="genres" />
+        </EntityType>
+        <EntityContainer Name="rubenvh_boekenEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="boeken" EntityType="Self.boeken" />
+          <EntitySet Name="genres" EntityType="Self.genres" />
+          <EntitySet Name="boekgelezen" EntityType="Self.boekgelezen" />
+          <EntitySet Name="boekgenre" EntityType="Self.boekgenre" />
+          <AssociationSet Name="boekenboekgelezen" Association="rubenvh_boekenModel.boekenboekgelezen">
+            <End Role="boeken" EntitySet="boeken" />
+            <End Role="boekgelezen" EntitySet="boekgelezen" />
+          </AssociationSet>
+          <AssociationSet Name="boekenboekgenre" Association="rubenvh_boekenModel.boekenboekgenre">
+            <End Role="boeken" EntitySet="boeken" />
+            <End Role="boekgenre" EntitySet="boekgenre" />
+          </AssociationSet>
+          <AssociationSet Name="boekgenregenres" Association="rubenvh_boekenModel.boekgenregenres">
+            <End Role="boekgenre" EntitySet="boekgenre" />
+            <End Role="genres" EntitySet="genres" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="boekenboekgelezen">
+          <End Type="rubenvh_boekenModel.boeken" Role="boeken" Multiplicity="1" />
+          <End Type="rubenvh_boekenModel.boekgelezen" Role="boekgelezen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boeken">
+              <PropertyRef Name="boekID" />
+            </Principal>
+            <Dependent Role="boekgelezen">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="boekenboekgenre">
+          <End Type="rubenvh_boekenModel.boeken" Role="boeken" Multiplicity="1" />
+          <End Type="rubenvh_boekenModel.boekgenre" Role="boekgenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boeken">
+              <PropertyRef Name="boekID" />
+            </Principal>
+            <Dependent Role="boekgenre">
+              <PropertyRef Name="boekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="boekgenregenres">
+          <End Type="rubenvh_boekenModel.boekgenre" Role="boekgenre" Multiplicity="*" />
+          <End Type="rubenvh_boekenModel.genres" Role="genres" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="genres">
+              <PropertyRef Name="genreID" />
+            </Principal>
+            <Dependent Role="boekgenre">
+              <PropertyRef Name="genreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="rubenvh_boekenModelStoreContainer" CdmEntityContainer="rubenvh_boekenEntities">
+          <EntitySetMapping Name="boeken">
+            <EntityTypeMapping TypeName="rubenvh_boekenModel.boeken">
+              <MappingFragment StoreEntitySet="boeken">
+                <ScalarProperty Name="boekID" ColumnName="boekID" />
+                <ScalarProperty Name="auteurs" ColumnName="auteurs" />
+                <ScalarProperty Name="titel" ColumnName="titel" />
+                <ScalarProperty Name="isbn" ColumnName="isbn" />
+                <ScalarProperty Name="jaar" ColumnName="jaar" />
+                <ScalarProperty Name="blz" ColumnName="blz" />
+                <ScalarProperty Name="owned" ColumnName="owned" />
+                <ScalarProperty Name="tags" ColumnName="tags" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="genres">
+            <EntityTypeMapping TypeName="rubenvh_boekenModel.genres">
+              <MappingFragment StoreEntitySet="genres">
+                <ScalarProperty Name="genreID" ColumnName="genreID" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="omschrijving" ColumnName="omschrijving" />
+                <ScalarProperty Name="group" ColumnName="group" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="boekgelezen">
+            <EntityTypeMapping TypeName="rubenvh_boekenModel.boekgelezen">
+              <MappingFragment StoreEntitySet="boekgelezen">
+                <ScalarProperty Name="BookId" ColumnName="boekID" />
+                <ScalarProperty Name="datum" ColumnName="datum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="boekgenre">
+            <EntityTypeMapping TypeName="rubenvh_boekenModel.boekgenre">
+              <MappingFragment StoreEntitySet="boekgenre">
+                <ScalarProperty Name="boekID" ColumnName="boekID" />
+                <ScalarProperty Name="genreID" ColumnName="genreID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

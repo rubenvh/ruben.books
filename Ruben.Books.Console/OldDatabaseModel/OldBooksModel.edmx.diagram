@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bf66572e03f04df3868d80e538985061" Name="Diagram1">
+        <EntityTypeShape EntityType="rubenvh_boekenModel.boeken" Width="1.5" PointX="0.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="rubenvh_boekenModel.genres" Width="1.5" PointX="6.125" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="rubenvh_boekenModel.boekgelezen" Width="1.5" PointX="4.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="rubenvh_boekenModel.boekgenre" Width="1.5" PointX="3.375" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="rubenvh_boekenModel.boekenboekgelezen" />
+        <AssociationConnector Association="rubenvh_boekenModel.boekenboekgenre" />
+        <AssociationConnector Association="rubenvh_boekenModel.boekgenregenres" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
