@@ -8,7 +8,16 @@
 
 <script>
     $(document).ready(function () {
-        
+        $("#createAuthor").hide();
+        $("#authorSearch").keyup(function () {
+            if ($(this).val()) {
+                $("#createAuthor").show();
+            }
+            else {
+                $("#createAuthor").hide();
+            }
+        });
+
         $("#authorSearch").autocomplete({
             source: function (request, response) {
                 $.get("/Author/Find", { term: request.term }, function (data) {
@@ -21,15 +30,31 @@
                 });
             },
             select: function (event, ui) {
-                $("#authors").append($('<option>', { 
+                $("#authors").append($('<option>', {
                     value: ui.item.id,
-                    text : ui.item.label 
+                    text: ui.item.label
                 }));
-                $('#authorSearch').val('');
                 $('#authors option').prop('selected', 'selected');
+                $('#authorSearch').val('');
+                $("#createAuthor").hide();
+                event.preventDefault();
             }
         });
-    })
+
+        $("#createAuthor").click(function () {
+            
+            $.get("/Author/Create", { name: $("#authorSearch").val() }, function (data) {
+                $("#authors").append($('<option>', {
+                    value:data.Id,
+                    text: data.Name
+                }));
+                $('#authors option').prop('selected', 'selected');
+                $('#authorSearch').val('');
+                $("#createAuthor").hide();
+            });
+
+        });
+    });
 </script>
 
 
@@ -46,7 +71,8 @@
         </div>
         <div class="editor-field">
             
-            <input id="authorSearch" type="text" name=""/>
+            <input id="authorSearch" type="text" name=""/><a href="#" id="createAuthor">create author?</a>
+<br />
             <select id="authors" name="selected_authors" multiple></select>
         </div>
 
