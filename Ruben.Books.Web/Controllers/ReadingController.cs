@@ -68,9 +68,10 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Delete(int id)
         {
+            var reading = _repo.Find(id);
             _repo.Delete(id);
             _unitOfWork.Save();
-            return Index();
+            return RedirectToAction("Details", "Books", new { id=reading.BookId });
         }
     }
 }
