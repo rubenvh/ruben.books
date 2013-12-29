@@ -5,6 +5,7 @@ using Ruben.Books.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,13 +13,15 @@ namespace Ruben.Books.Web.Controllers
 {
     public class ReadingController : Controller
     {
-         private IReadingsRepository _repo;
+        private IReadingsRepository _repo;
+        private IBooksRepository _bookRepo;
         private IUnitOfWork<BooksContext> _unitOfWork;
 
-        public ReadingController(IReadingsRepository repo, IUnitOfWork<BooksContext> unitOfWork)
+        public ReadingController(IReadingsRepository repo, IUnitOfWork<BooksContext> unitOfWork, IBooksRepository bookRepo)
         {
             _unitOfWork = unitOfWork;
             _repo = repo;
+            _bookRepo = bookRepo;
         }
 
         //
@@ -34,15 +37,33 @@ namespace Ruben.Books.Web.Controllers
             return View("BookVMIndex", viewModel);
         }
 
-        public ActionResult MarkRead()
+        public ActionResult MarkRead(int bookId)
         {
-            throw new NotImplementedException();
+            var book = _bookRepo.Find(bookId);
+            return View(new PrefillMarkReadVM() {
+                BookId = bookId,
+                Pages = book.Pages
+            });
         }
 
         [HttpPost]
         public ActionResult MarkRead(Reading reading)
         {
-            throw new NotImplementedException();
+            if(ModelState.IsValid)
+            {
+                reading.State = State.Added;
+                _repo.InsertOrUpdate(reading);
+                _unitOfWork.Save();
+                return new EmptyResult();
+            }
+
+            var errors = ModelState
+                .Where(_ => _.Value.Errors.Any())
+                .Select(_=>new {Field=_.Key, Error=_.Value.Errors.First().ErrorMessage})
+                .ToList();
+            
+            this.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+            return Json(new { Errors = errors });
         }
 
         public ActionResult Delete(int id)

@@ -6,6 +6,21 @@
 
 <h2>Details</h2>
 
+<script>
+    $(document).ready(function () {
+
+        $("#markRead").click(function () {
+            
+            bookId = @Model.Id;            
+            $.get("/Reading/MarkRead", { bookId: bookId }, function (data) {
+
+                $("#bookCommand").html(data);         
+
+            });
+        });
+
+    });
+</script>
 <fieldset>
     <legend>Book</legend>
 
@@ -80,5 +95,9 @@
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) 
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
+    <a href="#" id="markRead">Mark read</a>
+
 </p>
+
+<div id="bookCommand" />

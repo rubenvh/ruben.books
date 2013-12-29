@@ -25,7 +25,7 @@ namespace Ruben.Books.Web.Models
 
         public BookVM(Reading reading): this(reading.Book)
         {
-
+            LastRead = reading.Date;
         }
 
         public int Id { get; set; }

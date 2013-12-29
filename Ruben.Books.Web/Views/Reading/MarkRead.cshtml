@@ -1,0 +1,53 @@
+﻿@model Ruben.Books.Web.Models.PrefillMarkReadVM
+@{
+    Layout = null;
+}
+<script>
+    $(document).ready(function () {
+
+        $("#cancel").click(function () {
+            $("#bookCommand").empty();
+        });
+        $("#submit").click(function () {
+
+            $(".validation").remove();
+            bookId = @Model.BookId;
+            pages = $("#PagesRead").val();
+            json = { BookId: bookId, PagesRead: pages, Date: $("#Date").val() };
+                        
+            $.ajax({
+                type: "POST",
+                url: "/Reading/MarkRead",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                success: function (returnPayload) {
+                    window.location.href = "/books/details/"+bookId;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                    $.each(JSON.parse(xhr.responseText).Errors, function(k, v) {
+
+                        $("#"+v.Field).after("<span class='validation'>" + v.Error+"</span>");
+                    });                    
+                },
+            });            
+        });
+
+    });
+</script>
+
+<div>
+    <div>
+        <input name="BookId" type="hidden" value="@Model.BookId" />
+    </div>
+    <div>
+        <input id="Date" name="Date" type="date" value="@DateTime.Now.Date.ToString("dd/MM/yyyy")" />        
+    </div>
+    <div>
+        <input id="PagesRead" name="PagesRead" type="number" value="@Model.Pages" />
+    </div>
+    <div id="validation"></div>
+
+    <input id="submit" type="submit" value="Create" />
+<a id="cancel" href="#">cancel</a>
+</div>
