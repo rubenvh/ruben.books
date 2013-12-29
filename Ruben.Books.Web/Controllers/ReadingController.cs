@@ -63,7 +63,7 @@ namespace Ruben.Books.Web.Controllers
                 .ToList();
             
             this.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
-            return Json(new { Errors = errors });
+            return Json(new { Errors = errors }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete(int id)
