@@ -54,7 +54,7 @@ namespace Ruben.Books.Web.Controllers
                 reading.State = State.Added;
                 _repo.InsertOrUpdate(reading);
                 _unitOfWork.Save();
-                return new EmptyResult();
+                return Json(new {Success=true}, JsonRequestBehavior.AllowGet);
             }
 
             var errors = ModelState
@@ -62,8 +62,8 @@ namespace Ruben.Books.Web.Controllers
                 .Select(_=>new {Field=_.Key, Error=_.Value.Errors.First().ErrorMessage})
                 .ToList();
             
-            this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            return Json(new { Errors = errors }, JsonRequestBehavior.AllowGet);
+            //this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return Json(new { Success=false,Errors = errors }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete(int id)

@@ -14,23 +14,31 @@
             bookId = @Model.BookId;
             pages = $("#PagesRead").val();
             json = { BookId: bookId, PagesRead: pages, Date: $("#Date").val() };
-                        
+
             $.ajax({
                 type: "POST",
                 url: "/Reading/MarkRead",
                 data: JSON.stringify(json),
                 contentType: "application/json; charset=utf-8",
                 success: function (returnPayload) {
-                    window.location.href = "/books/details/"+bookId;
+                    if (returnPayload.Success)
+                    {
+                        window.location.href = "/books/details/"+bookId;
+                    }
+                    else
+                    {
+                        $.each(returnPayload.Errors, function(k, v) {
+
+                            $("#"+v.Field).after("<span class='validation'>" + v.Error+"</span>");
+                        });
+                    }
+
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
 
-                    $.each(JSON.parse(xhr.responseText).Errors, function(k, v) {
-
-                        $("#"+v.Field).after("<span class='validation'>" + v.Error+"</span>");
-                    });                    
+                   
                 },
-            });            
+            });
         });
 
     });
@@ -41,7 +49,7 @@
         <input name="BookId" type="hidden" value="@Model.BookId" />
     </div>
     <div>
-        <input id="Date" name="Date" type="date" value="@DateTime.Now.Date.ToString("dd/MM/yyyy")" />        
+        <input id="Date" name="Date" type="date" value="@DateTime.Now.Date.ToString("dd/MM/yyyy")" />
     </div>
     <div>
         <input id="PagesRead" name="PagesRead" type="number" value="@Model.Pages" />
@@ -49,5 +57,5 @@
     <div id="validation"></div>
 
     <input id="submit" type="submit" value="Create" />
-<a id="cancel" href="#">cancel</a>
+    <a id="cancel" href="#">cancel</a>
 </div>
