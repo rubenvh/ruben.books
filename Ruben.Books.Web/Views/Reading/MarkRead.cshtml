@@ -49,7 +49,7 @@
         <input name="BookId" type="hidden" value="@Model.BookId" />
     </div>
     <div>
-        <input id="Date" name="Date" type="date" value="@DateTime.Now.Date.ToString("dd/MM/yyyy")" />
+        <input id="Date" name="Date" type="date" value="@DateTime.Now.Date.ToShortDateString()" />
     </div>
     <div>
         <input id="PagesRead" name="PagesRead" type="number" value="@Model.Pages" />
