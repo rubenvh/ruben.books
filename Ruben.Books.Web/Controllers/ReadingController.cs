@@ -62,7 +62,7 @@ namespace Ruben.Books.Web.Controllers
                 .Select(_=>new {Field=_.Key, Error=_.Value.Errors.First().ErrorMessage})
                 .ToList();
             
-            this.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+            this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             return Json(new { Errors = errors }, JsonRequestBehavior.AllowGet);
         }
 
