@@ -22,6 +22,14 @@ namespace Ruben.Books.Web.Controllers
 
         //
         // GET: /Author/Find/x
+        public JsonResult Get(int[] ids)
+        {
+            var authors = _authorRepository.All
+                .Where(_ => ids.Contains(_.Id))
+                .Select(_ => new { _.Id, _.Name });
+            return Json(authors.ToList(), JsonRequestBehavior.AllowGet);
+
+        }
 
         public JsonResult Find(string term)
         {

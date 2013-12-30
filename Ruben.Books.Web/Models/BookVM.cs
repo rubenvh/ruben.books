@@ -48,6 +48,31 @@ namespace Ruben.Books.Web.Models
         public bool IsRead { get { return TimesRead > 0; } }
     }
 
+    public class CreateOrUpdateBookVM
+    {
+        public CreateOrUpdateBookVM()
+        {
+            AuthorIds = new int[0];
+        }
+        [Required(ErrorMessage="Title is a required field.")]
+        public string Title { get; set; }
+        
+        public int YearFirstPublished { get; set; }
+        public int YearPublished { get; set; }
+        public string Isbn { get; set; }
+
+        [Required]
+        public int Pages { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        public int[] AuthorIds { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }        
+        public string Tags { get; set; }
+    }
+
     //public class BookDetailsVM : BookVM
     //{
     //    public DateTime? FirstPublished { get; set; }

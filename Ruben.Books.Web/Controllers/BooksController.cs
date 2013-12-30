@@ -43,7 +43,7 @@ namespace Ruben.Books.Web.Controllers
         {
             var book = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings)
                 .Single(_ => _.Id == id);
-            
+
             return View(book);
         }
 
@@ -53,30 +53,35 @@ namespace Ruben.Books.Web.Controllers
         public ActionResult Create()
         {
             ViewData["Categories"] = new SelectList(_categoryRepository.All.ToList(), "Id", "Name", 1);
-            return View();
+            return View(new CreateOrUpdateBookVM());
         }
 
         //
         // POST: /Books/Create
 
         [HttpPost]
-        public ActionResult Create(Book book)
+        public ActionResult Create(CreateOrUpdateBookVM book)
         {
-            try
+            if (this.ModelState.IsValid)
             {
-                if (this.ModelState.IsValid)
+                var bookToAdd = new Book()
                 {
-                    book.State = State.Added;
-                    _repo.InsertOrUpdateGraph(book);
-                    _unitOfWork.Save();
-                    return RedirectToAction("Details", new { id=book.Id});
-                }
+                    State = State.Added,
+                    CategoryId = book.CategoryId,
+                    FirstPublished = new DateTime(book.YearFirstPublished, 1, 1),
+                    Published = new DateTime(book.YearPublished, 1, 1),
+                    Isbn = book.Isbn,
+                    Pages = book.Pages,
+                    Tags = book.Tags,
+                    Title = book.Title,
+                    Authors = book.AuthorIds.Select(_ => new Author() { Id = _ }).ToList()
+                };
+
+                _repo.InsertOrUpdateGraph(bookToAdd);
+                _unitOfWork.Save();
+                return RedirectToAction("Details", new { id = bookToAdd.Id });
             }
-            catch
-            {
-                // TODO: write error on view
-            }
-            // TODO: make sure validation errors are passed to client
+
             ViewData["Categories"] = new SelectList(_categoryRepository.All.ToList(), "Id", "Name", 1);
             return View(book);
         }
@@ -114,7 +119,7 @@ namespace Ruben.Books.Web.Controllers
         {
             var book = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings)
                 .Single(_ => _.Id == id);
-            
+
             return View(book);
         }
 
