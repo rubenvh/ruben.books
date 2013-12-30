@@ -28,12 +28,52 @@ namespace Ruben.Books.Web.Controllers
         //
         // GET: /Books/
 
-        public ActionResult Index()
-        {
-            var books = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings).ToList();
-            var viewModel = books.Select(_ => new BookVM(_)).ToList();
+        public ActionResult Index(BookFilterVM filter)
+        {           
             ViewBag.Title = "All books";
-            return View("BookVMIndex", viewModel);
+            var viewModel = new BookAndFilterVM
+            {
+                Books = GetBooks(filter),
+                Filter = filter
+            };
+            var categories = new List<Category>() { new Category {Name="_none", Id=-1}};
+            categories.AddRange( _categoryRepository.All.ToList());
+            viewModel.CategoryIds = new SelectList(categories, "Id", "Name", -1);
+
+            return View(viewModel);
+        }
+
+        public ActionResult IndexContent(BookFilterVM filter)
+        {               
+            return View("BookVMIndex", GetBooks(filter));
+        }
+
+        private List<BookVM> GetBooks(BookFilterVM filter)
+        {
+            var booksQuery = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings);
+
+            // TODO: convert to filter domain model and pass to repository
+            if (filter != default(BookFilterVM))
+            {
+                if (filter.IsRead.HasValue)
+                {
+                    booksQuery = filter.IsRead.Value ?
+                        booksQuery.Where(_ => _.Readings.Any()) :
+                        booksQuery.Where(_ => !_.Readings.Any());
+                }
+                if (filter.CategoryId.HasValue && filter.CategoryId.Value > 0)
+                {
+                    booksQuery = booksQuery.Where(_ => _.CategoryId == filter.CategoryId.Value);
+                }
+            }   
+
+            var books = booksQuery.OrderByDescending(_=>_.Id).ToList()
+                .Select(_ => new BookVM(_));
+
+            return (filter != null && filter.IsRead.HasValue && filter.IsRead.Value) ?
+                books.OrderByDescending(_ => _.LastRead).ToList() :
+                books.OrderByDescending(_ => _.Id).ToList();
+
         }
 
         //

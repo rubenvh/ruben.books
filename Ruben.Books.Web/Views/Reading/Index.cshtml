@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Ruben.Books.Web.Models.BookVM>
+
+@{
+    ViewBag.Title = "Timeline";
+}
+
+<h2>Timeline</h2>
+
+<div id="booksContainer">
+
+    @Html.Partial("BookVMIndex", Model)
+</div>

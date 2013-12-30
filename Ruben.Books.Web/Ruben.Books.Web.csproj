@@ -187,6 +187,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BookAndFilterVM.cs" />
+    <Compile Include="Models\BookPager.cs" />
     <Compile Include="Models\BookVM.cs" />
     <Compile Include="Models\PrefillMarkReadVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -369,6 +371,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Reading\MarkRead.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Books\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Reading\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

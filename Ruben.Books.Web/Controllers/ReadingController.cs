@@ -33,8 +33,8 @@ namespace Ruben.Books.Web.Controllers
             var readings = _repo.GetTimeline();
 
             var viewModel = readings.Select(_ => new BookVM(_)).ToList();
-            ViewBag.Title = "Timeline";
-            return View("BookVMIndex", viewModel);
+            
+            return View(viewModel);
         }
 
         public ActionResult MarkRead(int bookId)

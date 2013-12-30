@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ruben.Books.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,9 +21,15 @@ namespace Ruben.Books.Web
            );
 
             routes.MapRoute(
+                name: "BooksList",
+                url: "Books/Index/{filter}",
+                defaults: new { controller = "Books", action = "Index", filter = new BookFilterVM { IsRead = false } });
+
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Books", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Reading", action = "Index", id = UrlParameter.Optional }
             );
 
            

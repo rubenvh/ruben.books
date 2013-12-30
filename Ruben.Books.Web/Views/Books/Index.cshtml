@@ -1,0 +1,36 @@
+﻿@model Ruben.Books.Web.Models.BookAndFilterVM
+
+
+
+<h2>@ViewBag.Title</h2>
+
+<script>
+    $(document).ready(function () {
+        
+        $("#filter_read").val(@Model.Filter.IsRead.ToString().ToLower());
+        $("#filter_category").change(function () {
+            $.get("/Books/IndexContent/", { IsRead: $("#filter_read").is(':checked'), CategoryId: $("#filter_category").val() }, function (data) {
+
+                $("#booksContainer").html(data);
+
+            });
+        });
+        $("#filter_read").change(function () {
+            $.get("/Books/IndexContent/", { IsRead: this.checked, CategoryId: $("#filter_category").val() }, function (data) {
+
+                $("#booksContainer").html(data);
+
+            });
+        });
+    });    
+</script>
+<div class="bookFilters">
+    filters    
+    <div>is read: <input id="filter_read" type="checkbox" /></div>
+    <div>category: @Html.DropDownList("filter_category", Model.CategoryIds)</div>
+</div>
+
+<div id="booksContainer">
+    
+    @Html.Partial("BookVMIndex", Model.Books)
+</div>
