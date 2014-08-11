@@ -51,8 +51,19 @@ namespace Ruben.Books.Web.Controllers
         {
             if(ModelState.IsValid)
             {
+                var book = _bookRepo.Find(reading.BookId);
+                if (book.Owned.HasValue && book.Owned.Value)
+                {
+                    // earning badge
+                    reading.BadgesEarned.Add(new BookBadge()
+                        {
+                            State = State.Added,
+                            Reading = reading,
+                            IsSpent = false,
+                        });
+                }
                 reading.State = State.Added;
-                _repo.InsertOrUpdate(reading);
+                _repo.InsertOrUpdateGraph(reading);
                 _unitOfWork.Save();
                 return Json(new {Success=true}, JsonRequestBehavior.AllowGet);
             }

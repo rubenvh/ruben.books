@@ -64,6 +64,18 @@
     <Compile Include="Migrations\201312281638548_AddTagsToBook.Designer.cs">
       <DependentUpon>201312281638548_AddTagsToBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201408111724431_AddOwnershipOfBooksAndBookBadgesConcept.cs" />
+    <Compile Include="Migrations\201408111724431_AddOwnershipOfBooksAndBookBadgesConcept.Designer.cs">
+      <DependentUpon>201408111724431_AddOwnershipOfBooksAndBookBadgesConcept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408111730469_AddBookBadgesConcept.cs" />
+    <Compile Include="Migrations\201408111730469_AddBookBadgesConcept.Designer.cs">
+      <DependentUpon>201408111730469_AddBookBadgesConcept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408111744260_LinkBookBadgeToReadingInsteadOfBook.cs" />
+    <Compile Include="Migrations\201408111744260_LinkBookBadgeToReadingInsteadOfBook.Designer.cs">
+      <DependentUpon>201408111744260_LinkBookBadgeToReadingInsteadOfBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadingConfiguration.cs" />
@@ -84,6 +96,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312281638548_AddTagsToBook.resx">
       <DependentUpon>201312281638548_AddTagsToBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408111724431_AddOwnershipOfBooksAndBookBadgesConcept.resx">
+      <DependentUpon>201408111724431_AddOwnershipOfBooksAndBookBadgesConcept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408111730469_AddBookBadgesConcept.resx">
+      <DependentUpon>201408111730469_AddBookBadgesConcept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408111744260_LinkBookBadgeToReadingInsteadOfBook.resx">
+      <DependentUpon>201408111744260_LinkBookBadgeToReadingInsteadOfBook.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

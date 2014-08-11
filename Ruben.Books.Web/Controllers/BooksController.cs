@@ -17,12 +17,14 @@ namespace Ruben.Books.Web.Controllers
         private IBooksRepository _repo;
         private IUnitOfWork<BooksContext> _unitOfWork;
         private ICategoryRepository _categoryRepository;
+        private IBookBadgeRepository _badgeRepo;
 
-        public BooksController(IBooksRepository repo, IUnitOfWork<BooksContext> unitOfWork, ICategoryRepository categoryRepository)
+        public BooksController(IBooksRepository repo, IUnitOfWork<BooksContext> unitOfWork, ICategoryRepository categoryRepository, IBookBadgeRepository badgeRepo)
         {
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
             _repo = repo;
+            _badgeRepo = badgeRepo;
         }
 
         //
@@ -114,11 +116,18 @@ namespace Ruben.Books.Web.Controllers
                     Pages = book.Pages,
                     Tags = book.Tags,
                     Title = book.Title,
-                    Authors = book.AuthorIds.Select(_ => new Author() { Id = _ }).ToList()
+                    Authors = book.AuthorIds.Select(_ => new Author() { Id = _ }).ToList(),
+                    Owned = book.Owned
                 };
 
                 _repo.InsertOrUpdateGraph(bookToAdd);
                 _unitOfWork.Save();
+
+                if (book.Owned)
+                {
+                    _badgeRepo.SpendBadgesForBook();
+                    _unitOfWork.Save();
+                }
                 return RedirectToAction("Details", new { id = bookToAdd.Id });
             }
 

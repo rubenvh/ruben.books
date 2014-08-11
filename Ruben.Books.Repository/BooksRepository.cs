@@ -40,7 +40,7 @@ namespace Ruben.Books.Repository
                     State = State.Added
                 });
 
-                InsertOrUpdateGraph(book);
+                InsertOrUpdateGraph(book);                
             }
         }
 

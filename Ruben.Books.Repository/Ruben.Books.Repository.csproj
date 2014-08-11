@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AuthorRepository.cs" />
     <Compile Include="BaseEntityRepository.cs" />
+    <Compile Include="BookBadgeRepository.cs" />
     <Compile Include="BooksFilter.cs" />
     <Compile Include="BooksRepository.cs" />
     <Compile Include="CategoryRepository.cs" />

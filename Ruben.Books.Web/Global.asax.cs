@@ -43,7 +43,8 @@ namespace Ruben.Books.Web
                 Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>().LifestylePerWebRequest(),
                 Component.For<IReadingsRepository>().ImplementedBy<ReadingsRepository>().LifestylePerWebRequest(),
                 Component.For<IBooksRepository>().ImplementedBy<BooksRepository>().LifestylePerWebRequest(),
-                Component.For<IStatisticsRepository>().ImplementedBy<StatisticsRepository>().LifestylePerWebRequest()
+                Component.For<IStatisticsRepository>().ImplementedBy<StatisticsRepository>().LifestylePerWebRequest(),
+                Component.For<IBookBadgeRepository>().ImplementedBy<BookBadgeRepository>().LifestylePerWebRequest()
                 );
 
 

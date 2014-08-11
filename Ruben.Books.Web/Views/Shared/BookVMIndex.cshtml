@@ -22,6 +22,9 @@
         <th>
             @Html.DisplayNameFor(model => model.LastRead)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Owned)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -45,6 +48,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LastRead)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Owned)
         </td>
        
     </tr>

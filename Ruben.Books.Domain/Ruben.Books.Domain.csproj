@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Author.cs" />
     <Compile Include="Book.cs" />
+    <Compile Include="BookBadge.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="CategoryGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

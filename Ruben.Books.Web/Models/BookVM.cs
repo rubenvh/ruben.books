@@ -20,7 +20,7 @@ namespace Ruben.Books.Web.Models
             Pages = book.Pages;
             Id = book.Id;
             LastRead = book.Readings != null && book.Readings.Any() ? book.Readings.First().Date : default(Nullable<DateTime>);
-
+            Owned = book.Owned;
         }
 
         public BookVM(Reading reading): this(reading.Book)
@@ -28,6 +28,7 @@ namespace Ruben.Books.Web.Models
             LastRead = reading.Date;
         }
 
+        public bool? Owned { get; set; }
         public int Id { get; set; }
         public string Title { get; set; }
 
@@ -71,6 +72,9 @@ namespace Ruben.Books.Web.Models
         [Required]
         public int CategoryId { get; set; }        
         public string Tags { get; set; }
+
+        [Required]
+        public bool Owned { get; set; }
     }
 
     //public class BookDetailsVM : BookVM

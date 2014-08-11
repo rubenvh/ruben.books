@@ -30,6 +30,7 @@ namespace Ruben.Books.Domain
         public int CategoryId { get; set; }
         public ICollection<Reading> Readings { get; set; }
         public string Tags { get; set; }
+        public bool? Owned { get; set; }
 
         [NotMapped]
         public bool IsRead { get { return Readings.Any(); } }

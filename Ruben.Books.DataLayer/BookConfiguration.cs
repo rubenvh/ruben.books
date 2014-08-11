@@ -11,4 +11,12 @@ namespace Ruben.Books.DataLayer
 
         }
     }
+
+    public class BookBadgeConfiguration : EntityTypeConfiguration<BookBadge>
+    {
+        public BookBadgeConfiguration()
+        {
+            Property(_ => _.IsSpent).IsRequired();
+        }
+    }
 }

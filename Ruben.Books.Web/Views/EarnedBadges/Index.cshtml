@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Ruben.Books.Web.Models.BookBadgeVM>
+
+@{
+    ViewBag.Title = "Earned Badges";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Earned Badges</h2>
+
+<table>
+    <tr>
+        <th>
+            EarnedDate
+        </th>
+        <th>
+            BookTitle
+            @*@Html.DisplayNameFor(model => model.IsSpent)*@
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EarnedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book)
+        </td>       
+    </tr>
+}
+
+</table>

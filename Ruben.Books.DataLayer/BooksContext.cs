@@ -15,6 +15,7 @@ namespace Ruben.Books.DataLayer
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryGroup> CategoryGroups { get; set; }
         public DbSet<Reading> Readings { get; set; }
+        public DbSet<BookBadge> EarnedBadges { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -24,6 +25,7 @@ namespace Ruben.Books.DataLayer
             modelBuilder.Configurations.Add(new CategoryGroupConfiguration());
             modelBuilder.Configurations.Add(new AuthorConfiguration());
             modelBuilder.Configurations.Add(new ReadingConfiguration());
+            modelBuilder.Configurations.Add(new BookBadgeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
