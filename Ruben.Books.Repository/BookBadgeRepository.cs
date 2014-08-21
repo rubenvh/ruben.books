@@ -49,7 +49,7 @@ namespace Ruben.Books.Repository
             if (reading.Book.Owned.HasValue && reading.Book.Owned.Value)
             {
                 int avgPages = (int) Math.Round(_stats.GetGeneralAverages().PagesPerBook);
-                int badgesEarned = reading.PagesRead / avgPages;
+                int badgesEarned = Math.Max(1, reading.PagesRead / avgPages);
                 
                 // earning badge(s)
                 for (int i = 0; i < badgesEarned; i++)
