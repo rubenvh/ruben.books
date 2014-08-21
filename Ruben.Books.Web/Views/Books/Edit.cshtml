@@ -1,0 +1,186 @@
+﻿@model Ruben.Books.Web.Models.CreateOrUpdateBookVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <script>
+        $(document).ready(function () {
+
+            $("#createAuthor").hide();
+            $("#authorSearch").keyup(function () {
+                if ($(this).val()) {
+                    $("#createAuthor").show();
+                }
+                else {
+                    $("#createAuthor").hide();
+                }
+            });
+
+            $("#authorSearch").autocomplete({
+                source: function (request, response) {
+                    $.get("/Author/Find", { term: request.term }, function (data) {
+                        response($.map(data, function (c) {
+                            return {
+                                label: c.Name,
+                                id: c.Id
+                            };
+                        }));
+                    });
+                },
+                select: function (event, ui) {
+                    // TODO: create function for the following and reuse in click event below
+                    $("#authors").append($('<option>', {
+                        value: ui.item.id,
+                        text: ui.item.label
+                    }));
+                    $('#authors option').prop('selected', 'selected');
+                    $('#authorSearch').val('');
+                    $("#createAuthor").hide();
+                    event.preventDefault();
+                }
+            });
+
+            $("#createAuthor").click(function () {
+
+                $.get("/Author/Create", { name: $("#authorSearch").val() }, function (data) {
+                    $("#authors").append($('<option>', {
+                        value: data.Id,
+                        text: data.Name
+                    }));
+                    $('#authors option').prop('selected', 'selected');
+                    $('#authorSearch').val('');
+                    $("#createAuthor").hide();
+                });
+
+            });
+
+            $("#clearAuthors").click(function () {
+
+                $("#authors").empty();
+
+            });
+
+
+            @if (Model.AuthorIds.Any())
+            {
+                <text>
+                $.ajax({
+                    url: '@Url.Action("Get", "Author")',
+                    data: { ids: @Html.Raw(Json.Encode(Model.AuthorIds)) },
+                    traditional: true,
+                    success: function(result) {
+                        $.each(result, function() {
+                            $("#authors").append($('<option>', {
+                                value: this.Id,
+                                text: this.Name,
+                                selected: true
+                            }));
+                        });
+                    }
+                });
+                </text>
+            }
+        });
+    </script>
+
+    <fieldset>
+        <legend>Book</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AuthorIds)
+        </div>
+        <div class="editor-field">
+
+            <input id="authorSearch" type="text" name="" /><a href="#" id="createAuthor">create author?</a>
+            <br />
+            <select id="authors" name="AuthorIds" multiple></select>
+            @Html.ValidationMessageFor(model => model.AuthorIds)
+            <br />
+            <a id="clearAuthors" href="#">clear</a>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.YearFirstPublished)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.YearFirstPublished)
+            @Html.ValidationMessageFor(model => model.YearFirstPublished)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.YearPublished)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.YearPublished)
+            @Html.ValidationMessageFor(model => model.YearPublished)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Isbn)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Isbn)
+            @Html.ValidationMessageFor(model => model.Isbn)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Pages)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Pages)
+            @Html.ValidationMessageFor(model => model.Pages)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CategoryId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewData["Categories"])
+            @Html.ValidationMessageFor(model => model.CategoryId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Owned)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Owned)
+            @Html.ValidationMessageFor(model => model.Owned)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Tags)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Tags)
+            @Html.ValidationMessageFor(model => model.Tags)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to book", "Details", "Books", new { id = @Model.Id }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

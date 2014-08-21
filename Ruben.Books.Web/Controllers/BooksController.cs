@@ -18,13 +18,19 @@ namespace Ruben.Books.Web.Controllers
         private IUnitOfWork<BooksContext> _unitOfWork;
         private ICategoryRepository _categoryRepository;
         private IBookBadgeRepository _badgeRepo;
+        private IAuthorRepository _authorRepo;
 
-        public BooksController(IBooksRepository repo, IUnitOfWork<BooksContext> unitOfWork, ICategoryRepository categoryRepository, IBookBadgeRepository badgeRepo)
+        public BooksController(IUnitOfWork<BooksContext> unitOfWork, 
+            IBooksRepository repo, 
+            ICategoryRepository categoryRepository, 
+            IBookBadgeRepository badgeRepo,
+            IAuthorRepository authorRepo)
         {
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
             _repo = repo;
             _badgeRepo = badgeRepo;
+            _authorRepo = authorRepo;
         }
 
         //
@@ -135,25 +141,43 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            var book = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings)
+                .Single(_ => _.Id == id);
+            ViewData["Categories"] = new SelectList(_categoryRepository.All.ToList(), "Id", "Name", 1);
+            return View(new CreateOrUpdateBookVM(book));
         }
 
         //
         // POST: /Books/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CreateOrUpdateBookVM book)
         {
-            try
+            if (this.ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                var bookToUpdate = _repo.AllIncluding(_ => _.Category, _ => _.Authors, _ => _.Readings)
+                    .Single(_ => _.Id == book.Id);
+                                
+                bookToUpdate.State = State.Modified;
+                bookToUpdate.CategoryId = book.CategoryId;
+                bookToUpdate.FirstPublished = new DateTime(book.YearFirstPublished, 1, 1);
+                bookToUpdate.Published = new DateTime(book.YearPublished, 1, 1);
+                bookToUpdate.Isbn = book.Isbn;
+                bookToUpdate.Pages = book.Pages;
+                bookToUpdate.Tags = book.Tags;
+                bookToUpdate.Title = book.Title;                
+                bookToUpdate.Owned = book.Owned;
 
-                return RedirectToAction("Index");
+                bookToUpdate.Authors = _authorRepo.All.Where(_ => book.AuthorIds.Contains(_.Id)).ToList();
+                
+                _repo.InsertOrUpdate(bookToUpdate);
+                _unitOfWork.Save();
+
+                return RedirectToAction("Details", new { id = bookToUpdate.Id });
             }
-            catch
-            {
-                return View();
-            }
+
+            ViewData["Categories"] = new SelectList(_categoryRepository.All.ToList(), "Id", "Name", 1);
+            return View(book);
         }
 
         //

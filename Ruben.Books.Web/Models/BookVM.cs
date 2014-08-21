@@ -51,6 +51,19 @@ namespace Ruben.Books.Web.Models
 
     public class CreateOrUpdateBookVM
     {
+        public CreateOrUpdateBookVM(Book book)
+        {
+            Title = book.Title;
+            YearFirstPublished = book.FirstPublished.HasValue? book.FirstPublished.Value.Year : 0;
+            YearPublished = book.Published.HasValue ? book.Published.Value.Year : 0;
+            Pages = book.Pages;
+            AuthorIds = book.Authors.Select(_ => _.Id).ToArray();
+            CategoryId = book.CategoryId;
+            Tags = book.Tags;
+            Isbn = book.Isbn;
+            Owned = book.Owned.HasValue ? book.Owned.Value : false;
+            Id = book.Id;
+        }
         public CreateOrUpdateBookVM()
         {
             AuthorIds = new int[0];
@@ -75,6 +88,8 @@ namespace Ruben.Books.Web.Models
 
         [Required]
         public bool Owned { get; set; }
+
+        public int Id { get; set; }
     }
 
     //public class BookDetailsVM : BookVM
