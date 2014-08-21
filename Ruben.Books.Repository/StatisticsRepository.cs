@@ -25,7 +25,11 @@ namespace Ruben.Books.Repository
         {
             return new Averages
             {
-                BooksPerYear = _readingsRepository.All.GroupBy(_ => _.Date.Year).Average(_ => _.Count())
+                BooksPerYear = _readingsRepository.All.GroupBy(_ => _.Date.Year).Average(_ => _.Count()),
+                BooksPerMonth = 0,
+                PagesPerYear = 0,
+                PagesPerMonth = 0,
+                PagesPerBook = _readingsRepository.All.Average(_=>_.Book.Pages),
             };
         }
 
@@ -46,6 +50,7 @@ namespace Ruben.Books.Repository
         public double BooksPerMonth { get; set; }
         public double PagesPerYear { get; set; }
         public double PagesPerMonth { get; set; }
+        public double PagesPerBook { get; set; }
     }
 
     public class AverageBooksPerYear

@@ -10,17 +10,19 @@ namespace Ruben.Books.Repository
 {
     public interface IBookBadgeRepository : IEntityRepository<BookBadge>
     {
-
-        void SpendBadgesForBook();
+        void CreateBadgesForBookRead(Reading book);
+        void SpendBadge(int bookBadgeId);
     }
     public class BookBadgeRepository : BaseEntityRepository<BookBadge>, IBookBadgeRepository
     {
         private readonly BooksContext _context;
+        private readonly IStatisticsRepository _stats;
 
-        public BookBadgeRepository(IUnitOfWork<BooksContext> uow)
+        public BookBadgeRepository(IUnitOfWork<BooksContext> uow, IStatisticsRepository statisticsRepo)
             : base(uow.Context)
         {
             _context = uow.Context;
+            _stats = statisticsRepo;
         }
 
 
@@ -34,16 +36,32 @@ namespace Ruben.Books.Repository
             return entity.Id;
         }
 
-        public void SpendBadgesForBook()
+        public void SpendBadge(int bookBadgeId)
         {
-            var badgesToSpent = All.Where(_ => !_.IsSpent).Take(2).ToList();
-            
-            foreach (var b in badgesToSpent)
+            var badgeToSpend = Find(bookBadgeId);
+            badgeToSpend.State = State.Modified;
+            badgeToSpend.IsSpent = true;
+            InsertOrUpdate(badgeToSpend);
+        }
+
+        public void CreateBadgesForBookRead(Reading reading)
+        {
+            if (reading.Book.Owned.HasValue && reading.Book.Owned.Value)
             {
-                b.State = State.Modified;
-                b.IsSpent = true;
+                int avgPages = (int) Math.Round(_stats.GetGeneralAverages().PagesPerBook);
+                int badgesEarned = reading.PagesRead / avgPages;
+                
+                // earning badge(s)
+                for (int i = 0; i < badgesEarned; i++)
+                { 
+                    reading.BadgesEarned.Add(new BookBadge()
+                    {
+                        State = State.Added,
+                        Reading = reading,
+                        IsSpent = false,
+                    });
+                }
             }
-            badgesToSpent.ForEach(_=>InsertOrUpdate(_));
         }
     }
 }

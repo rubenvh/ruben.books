@@ -122,12 +122,7 @@ namespace Ruben.Books.Web.Controllers
 
                 _repo.InsertOrUpdateGraph(bookToAdd);
                 _unitOfWork.Save();
-
-                if (book.Owned)
-                {
-                    _badgeRepo.SpendBadgesForBook();
-                    _unitOfWork.Save();
-                }
+               
                 return RedirectToAction("Details", new { id = bookToAdd.Id });
             }
 

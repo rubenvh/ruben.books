@@ -15,13 +15,19 @@ namespace Ruben.Books.Web.Controllers
     {
         private IReadingsRepository _repo;
         private IBooksRepository _bookRepo;
+        private IBookBadgeRepository _badgeRepo;
         private IUnitOfWork<BooksContext> _unitOfWork;
 
-        public ReadingController(IReadingsRepository repo, IUnitOfWork<BooksContext> unitOfWork, IBooksRepository bookRepo)
+        public ReadingController(
+            IUnitOfWork<BooksContext> unitOfWork,
+            IReadingsRepository repo,  
+            IBooksRepository bookRepo,
+            IBookBadgeRepository badgeRepo)
         {
             _unitOfWork = unitOfWork;
             _repo = repo;
             _bookRepo = bookRepo;
+            _badgeRepo = badgeRepo;
         }
 
         //
@@ -52,16 +58,8 @@ namespace Ruben.Books.Web.Controllers
             if(ModelState.IsValid)
             {
                 var book = _bookRepo.Find(reading.BookId);
-                if (book.Owned.HasValue && book.Owned.Value)
-                {
-                    // earning badge
-                    reading.BadgesEarned.Add(new BookBadge()
-                        {
-                            State = State.Added,
-                            Reading = reading,
-                            IsSpent = false,
-                        });
-                }
+                reading.Book = book;
+                _badgeRepo.CreateBadgesForBookRead(reading);
                 reading.State = State.Added;
                 _repo.InsertOrUpdateGraph(reading);
                 _unitOfWork.Save();
