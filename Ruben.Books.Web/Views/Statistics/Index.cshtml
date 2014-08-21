@@ -1,4 +1,4 @@
-﻿@model Ruben.Books.Repository.Averages
+﻿@model Ruben.Books.Web.Models.StatsModelVM
 
 @{
     ViewBag.Title = "Index";
@@ -7,9 +7,87 @@
 <h2>Statistics</h2>
 
 <table>
-    <tr><th>Books per year</th><td>@Model.BooksPerYear</td></tr>
-    <tr><th>Books per month</th><td>@Model.BooksPerMonth</td></tr>
-    <tr><th>Pages per year</th><td>@Model.PagesPerYear</td></tr>
-    <tr><th>Pages per month</th><td>@Model.PagesPerMonth</td></tr>
-    <tr><th>Avg book size (in pages)</th><td>@Model.PagesPerBook</td></tr>
+    <tr><th>Books per year</th><td>@Html.DisplayFor(_=>_.Averages.BooksPerYear)</td></tr>
+    <tr><th>Books per month</th><td>@Html.DisplayFor(_ => _.Averages.BooksPerMonth)</td></tr>
+    <tr><th>Pages per year</th><td>@Html.DisplayFor(_ => _.Averages.PagesPerYear)</td></tr>
+    <tr><th>Pages per month</th><td>@Html.DisplayFor(_ => _.Averages.PagesPerMonth)</td></tr>
+    <tr><th>Total books</th><td>@Html.DisplayFor(_ => _.Averages.TotalBooksRead)</td></tr>
+    <tr><th>Total pages</th><td>@Html.DisplayFor(_ => _.Averages.TotalPagesRead)</td></tr>
+    <tr><th>Avg book size</th><td>@Html.DisplayFor(_ => _.Averages.PagesPerBook)</td></tr>
+</table>
+
+<table>
+    @foreach(var top in Model.TopMonths)
+    {
+        <tr><th>@top.Item1.Year</th><th>@top.Item1.Month</th><td>@top.Item2</td></tr>        
+    }    
+</table>
+
+<table>
+    <tr>
+        <th>year</th>
+        <th>books read</th>
+        <th>total pages</th>
+        <th>pages per day</th>
+    </tr>
+    
+    @foreach (var avg in Model.AverageBooksPerYear)
+    {
+        <tr>
+            <td>@avg.Item1</td>
+            <td>@avg.Item2.BooksRead</td>
+            <td>@avg.Item2.TotalPagesRead</td>
+            <td>@Html.DisplayFor(_ => avg.Item2.PagesPerDay)</td>
+        </tr>
+    }
+</table>
+
+<table>
+<tr>
+    <th>category</th>
+    <th>books read</th>
+    <th>total pages</th>
+    <th>pages per day</th>
+</tr>
+
+@foreach (var avg in Model.AverageBooksPerCategory)
+{
+    <tr>
+        <td>@avg.Item1</td>
+        <td>@avg.Item2.BooksRead</td>
+        <td>@avg.Item2.TotalPagesRead</td>
+        <td>@Html.DisplayFor(_ => avg.Item2.PagesPerDay)</td>
+    </tr>
+}
+@*<tr>
+    <th></th>
+    <th>@Model.AverageBooksPerCategory.Sum(_=>_.Item2.BooksRead)</th>
+    <th>@Model.AverageBooksPerCategory.Sum(_ => _.Item2.TotalPagesRead)</th>
+    <th>@Model.AverageBooksPerCategory.Sum(_ => _.Item2.PagesPerDay)</th>
+</tr>*@
+</table>
+
+<table>
+    <tr>
+        <th>category group</th>
+        <th>books read</th>
+        <th>total pages</th>
+        <th>pages per day</th>
+    </tr>
+
+    @foreach (var avg in Model.AverageBooksPerCategoryGroup)
+    {
+        <tr>
+            <td>@avg.Item1</td>
+            <td>@avg.Item2.BooksRead</td>
+            <td>@avg.Item2.TotalPagesRead</td>
+            <td>@Html.DisplayFor(_ => avg.Item2.PagesPerDay)</td>
+        </tr>
+    }
+    @*<tr>
+            <th></th>
+            <th>@Model.AverageBooksPerCategory.Sum(_=>_.Item2.BooksRead)</th>
+            <th>@Model.AverageBooksPerCategory.Sum(_ => _.Item2.TotalPagesRead)</th>
+            <th>@Model.AverageBooksPerCategory.Sum(_ => _.Item2.PagesPerDay)</th>
+        </tr>*@
 </table>

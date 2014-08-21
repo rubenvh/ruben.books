@@ -194,6 +194,7 @@
     <Compile Include="Models\BookPager.cs" />
     <Compile Include="Models\BookVM.cs" />
     <Compile Include="Models\PrefillMarkReadVM.cs" />
+    <Compile Include="Models\StatsModelVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindsorControllerFactory.cs" />
   </ItemGroup>

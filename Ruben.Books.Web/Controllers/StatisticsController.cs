@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ruben.Books.Repository;
+using Ruben.Books.Web.Models;
 
 namespace Ruben.Books.Web.Controllers
 {
@@ -19,8 +20,16 @@ namespace Ruben.Books.Web.Controllers
 
         public ActionResult Index()
         {
-            var stats = _statisticsRepository.GetGeneralAverages();
-            return View(stats);
+            var vm = new StatsModelVM()
+            {
+                Averages = _statisticsRepository.GetGeneralAverages(),
+                TopMonths = _statisticsRepository.GetTopMonths(5),
+                AverageBooksPerYear = _statisticsRepository.GetAverageBooksPerYears(),
+                AverageBooksPerCategory = _statisticsRepository.GetAveragePerCategory(),
+                AverageBooksPerCategoryGroup = _statisticsRepository.GetAveragePerCategoryGroup(),
+            };
+
+            return View(vm);
         }
 
     }
